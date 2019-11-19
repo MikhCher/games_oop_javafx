@@ -27,11 +27,7 @@ public class Logic3T {
         boolean result = false;
         for (int i = 0; i < table[0].length; i++) {
             if (table[i][i].hasMarkX()) {
-                boolean vertical = fillBy(Figure3T::hasMarkX, 0, i, 1, 0);
-                boolean horizontal = fillBy(Figure3T::hasMarkX, i, 0, 0, 1);
-                boolean diagonal = (fillBy(Figure3T::hasMarkX, 0, 0, 1, 1))
-                        || (fillBy(Figure3T::hasMarkX, 2, 0, -1, 1));
-                if (vertical || horizontal || diagonal) {
+                if (checkThreeInARow(i)) {
                     result = true;
                     break;
                 }
@@ -44,11 +40,7 @@ public class Logic3T {
         boolean result = false;
         for (int i = 0; i < table[0].length; i++) {
             if (table[i][i].hasMarkO()) {
-                boolean vertical = fillBy(Figure3T::hasMarkO, 0, i, 1, 0);
-                boolean horizontal = fillBy(Figure3T::hasMarkO, i, 0, 0, 1);
-                boolean diagonal = (fillBy(Figure3T::hasMarkO, 0, 0, 1, 1))
-                        || (fillBy(Figure3T::hasMarkO, 2, 0, -1, 1));
-                if (vertical || horizontal || diagonal) {
+                if (checkThreeInARow(i)) {
                     result = true;
                     break;
                 }
@@ -71,5 +63,17 @@ public class Logic3T {
             }
         }
         return result;
+    }
+
+    private boolean checkThreeInARow(int i) {
+        boolean vertical = fillBy(Figure3T::hasMarkO, 0, i, 1, 0)
+                || fillBy(Figure3T::hasMarkX, 0, i, 1, 0);
+        boolean horizontal = fillBy(Figure3T::hasMarkO, i, 0, 0, 1)
+                || fillBy(Figure3T::hasMarkX, i, 0, 0, 1);
+        boolean diagonal = (fillBy(Figure3T::hasMarkO, 0, 0, 1, 1))
+                || (fillBy(Figure3T::hasMarkO, 2, 0, -1, 1))
+                || (fillBy(Figure3T::hasMarkX, 0, 0, 1, 1))
+                || (fillBy(Figure3T::hasMarkX, 2, 0, -1, 1));
+        return vertical || horizontal || diagonal;
     }
 }
